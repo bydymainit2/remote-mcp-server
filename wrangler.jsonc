@@ -28,7 +28,7 @@
 		{
 			"binding": "OAUTH_KV",
 			// !!! IMPORTANT: Replace this placeholder with your actual KV Namespace ID !!!
-			"id": "<YOUR_ACTUAL_OAUTH_KV_NAMESPACE_ID>"
+			"id": "remote-mcp-server-kv_namespace"
 		}
 	],
 	"observability": {
