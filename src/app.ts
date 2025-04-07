@@ -11,7 +11,8 @@ import {
 import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 
 export type Bindings = Env & {
-	OAUTH_PROVIDER: OAuthHelpers;
+		OAUTH_PROVIDER: OAuthHelpers;
+	ASSETS: Fetcher;
 };
 
 const app = new Hono<{
