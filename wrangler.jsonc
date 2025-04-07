@@ -4,31 +4,38 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "remote-mcp-server",
+	"name": "remote-mcp-server-tgstat", // Consider keeping the updated name consistent
 	"main": "src/index.ts",
 	"compatibility_date": "2025-03-10",
 	"migrations": [
 		{
-			"new_sqlite_classes": ["MyMCP"],
-			"tag": "v1"
+			// *** UPDATED HERE ***
+			"new_sqlite_classes": ["TGStatAgent"],
+			"tag": "v1" // You might increment this tag if making schema changes, but for just a rename v1 might be okay. Or change to v2.
 		}
 	],
 	"durable_objects": {
 		"bindings": [
 			{
-				"class_name": "MyMCP",
-				"name": "MCP_OBJECT"
+				// *** UPDATED HERE ***
+				"class_name": "TGStatAgent",
+				// You can keep the binding name or change it if you prefer
+				"name": "TGSTAT_AGENT_OBJECT" // Changed binding name for clarity (optional)
 			}
 		]
 	},
 	"kv_namespaces": [
 		{
 			"binding": "OAUTH_KV",
-			"id": "e4c44870296d447db7eb69d3edb9ea1d"
+			// !!! IMPORTANT: Replace this placeholder with your actual KV Namespace ID !!!
+			"id": "<YOUR_ACTUAL_OAUTH_KV_NAMESPACE_ID>"
 		}
 	],
 	"observability": {
 		"enabled": true
 	},
-	"assets": { "directory": "./static/", "binding": "ASSETS" }
+	"assets": {
+        "directory": "./static/",
+        "binding": "ASSETS"
+    }
 }
