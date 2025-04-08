@@ -1,3 +1,4 @@
+// src/app.ts
 import { Hono } from "hono";
 import {
 	layout,
@@ -10,12 +11,24 @@ import {
 } from "./utils";
 import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 
+// Define Env based on wrangler.jsonc bindings + potentially others
+interface Env {
+    // KV Namespace binding from wrangler.jsonc
+    OAUTH_KV: KVNamespace;
+    // Assets binding from wrangler.jsonc
+    ASSETS: Fetcher;
+    // Durable Object binding from wrangler.jsonc
+    MCP_OBJECT: DurableObjectNamespace;
+    // Add any other environment variables or bindings needed
+}
+
+// Bindings type used by Hono and potentially OAuthProvider
 export type Bindings = Env & {
 	OAUTH_PROVIDER: OAuthHelpers;
 };
 
 const app = new Hono<{
-	Bindings: Bindings;
+	Bindings: Bindings; // Use the defined Bindings including wrangler ones
 }>();
 
 // Render a basic homepage placeholder to make sure the app is up
