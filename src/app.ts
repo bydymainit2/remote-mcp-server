@@ -55,6 +55,9 @@ app.get("/authorize", async (c) => {
 		},
 		{ name: "read_data", description: "Access your stored data" },
 		{ name: "write_data", description: "Create and modify your data" },
+		// Add TGStat specific scopes if needed
+		{ name: "tgstat_search", description: "Search TGStat channels" },
+		{ name: "tgstat_posts", description: "Read posts from TGStat channels" },
 	];
 
 	if (isLoggedIn) {
