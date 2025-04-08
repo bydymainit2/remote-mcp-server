@@ -49,45 +49,69 @@ export const layout = (content: HtmlEscapedString | string, title: string) => ht
                     min-height: 100vh;
                     display: flex;
                     flex-direction: column;
+                    background-color: #f3f4f6; /* bg-gray-100 */
+                    color: #1f2937; /* text-gray-800 */
+                    font-family: "Inter", system-ui, sans-serif; /* font-sans */
+                    line-height: 1.625; /* leading-relaxed */
                 }
                 main {
                     flex-grow: 1;
+                    padding-bottom: 3rem; /* pb-12 */
+                }
+                header {
+                    background-color: white;
+                    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* shadow-md */
+                    margin-bottom: 2rem; /* mb-8 */
+                    position: sticky;
+                    top: 0;
+                    z-index: 10;
+                }
+                footer {
+                    background-color: #e5e7eb; /* bg-gray-200 */
+                    padding-top: 1rem; /* py-4 */
+                    padding-bottom: 1rem;
+                    margin-top: auto;
                 }
 
 				/* Custom styling for markdown content */
+				.markdown {
+                    max-width: 56rem; /* max-w-4xl */
+                    margin-left: auto;
+                    margin-right: auto;
+                }
 				.markdown h1 {
-					font-size: 2rem; /* Adjusted size */
+					font-size: 2rem; /* text-3xl (approx) */
 					font-weight: 700;
 					font-family: "Roboto", system-ui, sans-serif;
 					color: #1a202c; /* Darker gray */
-					margin-bottom: 1.5rem; /* Increased margin */
-                    padding-bottom: 0.5rem; /* Add padding */
-                    border-bottom: 1px solid #e2e8f0; /* Add border */
+					margin-bottom: 1.5rem; /* mb-6 */
+                    padding-bottom: 0.5rem; /* pb-2 */
+                    border-bottom: 1px solid #e2e8f0; /* border-gray-200 */
 					line-height: 1.2;
 				}
 				.markdown h2 {
-					font-size: 1.5rem;
+					font-size: 1.5rem; /* text-2xl */
 					font-weight: 600;
 					font-family: "Roboto", system-ui, sans-serif;
 					color: #2d3748; /* Medium gray */
-					margin-top: 2rem; /* Increased margin */
-					margin-bottom: 1rem; /* Increased margin */
-                    padding-bottom: 0.25rem;
-                    border-bottom: 1px solid #e2e8f0;
+					margin-top: 2rem; /* mt-8 */
+					margin-bottom: 1rem; /* mb-4 */
+                    padding-bottom: 0.25rem; /* pb-1 */
+                    border-bottom: 1px solid #e2e8f0; /* border-gray-200 */
 					line-height: 1.3;
 				}
 				.markdown h3 {
-					font-size: 1.25rem;
+					font-size: 1.25rem; /* text-xl */
 					font-weight: 600;
 					font-family: "Roboto", system-ui, sans-serif;
 					color: #2d3748;
-					margin-top: 1.5rem;
-					margin-bottom: 0.75rem;
+					margin-top: 1.5rem; /* mt-6 */
+					margin-bottom: 0.75rem; /* mb-3 */
 				}
 				.markdown p {
-					font-size: 1rem; /* Standard size */
-					color: #4a5568; /* Lighter gray */
-					margin-bottom: 1rem;
+					font-size: 1rem; /* text-base */
+					color: #4a5568; /* Lighter gray (text-gray-600) */
+					margin-bottom: 1rem; /* mb-4 */
 					line-height: 1.7; /* Slightly increased line height */
 				}
 				.markdown a {
@@ -102,14 +126,15 @@ export const layout = (content: HtmlEscapedString | string, title: string) => ht
 				}
 				.markdown blockquote {
 					border-left: 4px solid #f39c12; /* Accent orange */
-					padding: 0.75rem 1rem; /* Adjusted padding */
-					margin: 1.5rem 0; /* Vertical margin only */
-					background-color: #fffbeb; /* Light yellow background */
-                    color: #713f12; /* Darker text for contrast */
+					padding: 0.75rem 1rem; /* py-3 px-4 */
+					margin: 1.5rem 0; /* my-6 mx-0 */
+					background-color: #fffbeb; /* Light yellow background (e.g., yellow-50) */
+                    color: #713f12; /* Darker text for contrast (e.g., yellow-900) */
 					font-style: italic;
+                    border-radius: 0.25rem; /* rounded-sm */
 				}
 				.markdown blockquote p {
-					margin-bottom: 0.5rem; /* Spacing within blockquote */
+					margin-bottom: 0.5rem; /* mb-2 */
                     font-size: 0.95rem; /* Slightly smaller text */
 				}
                  .markdown blockquote p:last-child {
@@ -117,41 +142,44 @@ export const layout = (content: HtmlEscapedString | string, title: string) => ht
                 }
 				.markdown ul,
 				.markdown ol {
-					margin-top: 1rem;
-					margin-bottom: 1rem;
-					margin-left: 1.75rem; /* Increased indent */
-					font-size: 1rem;
-					color: #4a5568;
+					margin-top: 1rem; /* mt-4 */
+					margin-bottom: 1rem; /* mb-4 */
+					margin-left: 1.75rem; /* ml-7 */
+					font-size: 1rem; /* text-base */
+					color: #4a5568; /* text-gray-600 */
                     line-height: 1.7;
 				}
 				.markdown li {
-					margin-bottom: 0.5rem;
+					margin-bottom: 0.5rem; /* mb-2 */
 				}
+				.markdown ul { list-style-type: disc; }
+				.markdown ol { list-style-type: decimal; }
 				.markdown ul li::marker { /* Style list markers */
-                    color: #3498db;
+                    color: #3498db; /* primary */
                 }
                 .markdown ol li::marker {
-                    color: #3498db;
+                    color: #3498db; /* primary */
                     font-weight: 500;
                 }
 				.markdown pre {
-					background-color: #f7fafc; /* Very light gray */
-					padding: 1rem;
-					border-radius: 0.375rem; /* Tailwind's rounded-md */
-                    border: 1px solid #e2e8f0; /* Light border */
-					margin-top: 1.5rem;
-					margin-bottom: 1.5rem;
+					background-color: #f7fafc; /* Very light gray (gray-50) */
+					padding: 1rem; /* p-4 */
+					border-radius: 0.375rem; /* rounded-md */
+                    border: 1px solid #e2e8f0; /* border-gray-200 */
+					margin-top: 1.5rem; /* mt-6 */
+					margin-bottom: 1.5rem; /* mb-6 */
 					overflow-x: auto;
-                    font-size: 0.9rem; /* Smaller font for code */
+                    font-size: 0.9rem; /* Slightly smaller font for code */
                     line-height: 1.5;
 				}
 				.markdown code { /* Inline code */
 					font-family: 'Courier New', Courier, monospace;
 					font-size: 0.9em; /* Relative size */
-					background-color: #edf2f7; /* Slightly darker gray */
+					background-color: #edf2f7; /* Slightly darker gray (gray-200) */
 					padding: 0.15rem 0.3rem; /* Adjusted padding */
-					border-radius: 0.25rem; /* Tailwind's rounded-sm */
-                    color: #2d3748;
+					border-radius: 0.25rem; /* rounded-sm */
+                    color: #2d3748; /* text-gray-700 */
+                    word-break: break-word; /* Prevent long code strings from overflowing */
 				}
 				.markdown pre code { /* Code within pre blocks */
 					background-color: transparent;
@@ -159,13 +187,47 @@ export const layout = (content: HtmlEscapedString | string, title: string) => ht
                     border-radius: 0;
                     color: inherit; /* Inherit color from pre */
                     font-size: inherit;
+                    font-family: inherit; /* Use pre's font family */
+                    word-break: normal; /* Allow normal breaks in code blocks */
 				}
+                .container {
+                    width: 100%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding-left: 1rem; /* px-4 */
+                    padding-right: 1rem;
+                }
+                @media (min-width: 640px) { /* sm */
+                    .container {
+                         max-width: 640px;
+                         padding-left: 1.5rem; /* sm:px-6 */
+                         padding-right: 1.5rem;
+                    }
+                     .markdown { max-width: 640px; }
+                }
+                @media (min-width: 768px) { /* md */
+                     .container { max-width: 768px; }
+                     .markdown { max-width: 768px; }
+                }
+                 @media (min-width: 1024px) { /* lg */
+                     .container {
+                         max-width: 1024px;
+                         padding-left: 2rem; /* lg:px-8 */
+                         padding-right: 2rem;
+                     }
+                     .markdown { max-width: 1024px; } /* Adjust if needed */
+                 }
+                 @media (min-width: 1280px) { /* xl */
+                    .container { max-width: 1280px; }
+                    .markdown { max-width: 56rem; } /* Keep markdown constrained */
+                }
+                @media (min-width: 1536px) { /* 2xl */
+                    .container { max-width: 1536px; }
+                 }
 			</style>
 		</head>
-		<body
-			class="bg-gray-100 text-gray-800 font-sans leading-relaxed flex flex-col min-h-screen"
-		>
-			<header class="bg-white shadow-md mb-8 sticky top-0 z-10"> {/* Make header sticky */}
+		<body>
+			<header>
 				<div
 					class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center"
 				>
@@ -177,10 +239,10 @@ export const layout = (content: HtmlEscapedString | string, title: string) => ht
                     {/* Optional: Add navigation links here */}
 				</div>
 			</header>
-			<main class="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 flex-grow">
+			<main class="container mx-auto px-4 sm:px-6 lg:px-8">
 				${content}
 			</main>
-			<footer class="bg-gray-200 py-4 mt-auto"> {/* Footer styles */}
+			<footer>
 				<div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600 text-sm">
 					<p>
 						© ${new Date().getFullYear()} MCP Remote Auth Demo.
@@ -195,7 +257,10 @@ export const layout = (content: HtmlEscapedString | string, title: string) => ht
 // Modified to accept ASSETS fetcher binding explicitly
 export const homeContent = async (req: Request, assetsFetcher: Fetcher): Promise<HtmlEscapedString> => {
 	const origin = new URL(req.url).origin;
-    const readmeUrl = new URL("/README.md", origin).toString(); // Construct full URL for fetch
+    // IMPORTANT: Ensure the path matches how assets are served.
+    // If wrangler serves from root, /README.md is correct.
+    // If it serves from a subdirectory, adjust accordingly (e.g., /static/README.md).
+    const readmeUrl = new URL("/README.md", origin).toString();
 	console.log(`Fetching README from: ${readmeUrl}`); // Log URL being fetched
 
 	try {
@@ -207,22 +272,51 @@ export const homeContent = async (req: Request, assetsFetcher: Fetcher): Promise
 			const errorBody = await res.text().catch(() => "Could not read error body"); // Try reading body for clues
             console.error("Error Body:", errorBody);
 			return html`<div class="max-w-4xl mx-auto markdown">
-                <h1>Error</h1>
-                <p>Could not load README content from static assets. Please ensure the ASSETS binding is configured correctly and README.md exists in the static directory.</p>
-                <p>Status: ${res.status} ${res.statusText}</p>
+                <h1>Error Loading Content</h1>
+                <p>Could not load README.md from static assets. Please ensure:</p>
+                <ul>
+                    <li>The <code>ASSETS</code> binding in <code>wrangler.jsonc</code> points to the correct directory (e.g., <code>./static/</code>).</li>
+                    <li>A file named <code>README.md</code> exists directly within that directory.</li>
+                    <li>The Worker has been deployed/restarted after changes.</li>
+                </ul>
+                <p><strong>Attempted URL:</strong> <code>${readmeUrl}</code></p>
+                <p><strong>Status:</strong> ${res.status} ${res.statusText}</p>
+                 ${errorBody ? html`<p><strong>Response Body:</strong></p><pre><code>${errorBody}</code></pre>` : ''}
             </div>`;
 		}
 		const markdown = await res.text();
-		const content = await marked(markdown); // Consider using a safer markdown renderer if needed
+        // Use 'marked' with async option if available, or keep as is if sync is intended
+		// const content = await marked.parse(markdown); // Prefer async parse if using newer marked
+        let contentHtml: string;
+        try {
+            // marked() is synchronous by default in older versions, async in newer
+            const markedResult = marked(markdown);
+            if (typeof markedResult === 'string') {
+                 contentHtml = markedResult;
+            } else { // Handle promise if marked is async
+                contentHtml = await markedResult;
+            }
+        } catch (markedError: any) {
+             console.error("Error parsing Markdown:", markedError);
+             return html`<div class="max-w-4xl mx-auto markdown">
+                <h1>Markdown Parsing Error</h1>
+                <p>Could not parse the content of README.md.</p>
+                <pre><code>${markedError.message}</code></pre>
+             </div>`;
+        }
+
 		return html`
-			<div class="max-w-4xl mx-auto markdown">${raw(content)}</div>
+			<div class="markdown">${raw(contentHtml)}</div>
 		`;
 	} catch (error: any) {
 		console.error("Error fetching or parsing README.md:", error);
+        // Log the full error if possible
+        console.error(error);
 		return html`<div class="max-w-4xl mx-auto markdown">
-            <h1>Error</h1>
+            <h1>Unexpected Error</h1>
             <p>An unexpected error occurred while loading content.</p>
             <pre><code>${error.message}</code></pre>
+            ${error.stack ? html`<p>Stack Trace:</p><pre><code>${error.stack}</code></pre>` : ''}
         </div>`;
 	}
 };
@@ -232,6 +326,16 @@ export const renderLoggedInAuthorizeScreen = async (
 	oauthScopes: { name: string; description: string }[],
 	oauthReqInfo: AuthRequest,
 ): Promise<HtmlEscapedString> => {
+	// Serialize only necessary parts of oauthReqInfo, avoid potential circular refs or large objects
+	const relevantReqInfo = {
+		response_type: oauthReqInfo.response_type,
+		client_id: oauthReqInfo.client_id,
+		redirect_uri: oauthReqInfo.redirect_uri,
+		scope: oauthReqInfo.scope,
+		state: oauthReqInfo.state,
+		code_challenge: oauthReqInfo.code_challenge,
+		code_challenge_method: oauthReqInfo.code_challenge_method,
+	};
 	return html`
 		<div class="max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-200">
 			<h1 class="text-2xl font-heading font-bold mb-6 text-center text-gray-900">
@@ -264,14 +368,13 @@ export const renderLoggedInAuthorizeScreen = async (
 				</ul>
 			</div>
 			<form action="/approve" method="POST" class="space-y-4">
-                {/* Hidden field to carry OAuth request info */}
+                {/* Hidden field to carry OAuth request info - Properly escape JSON */}
 				<input
 					type="hidden"
 					name="oauthReqInfo"
-					value="${JSON.stringify(oauthReqInfo)}"
+					value='${JSON.stringify(relevantReqInfo)}'
 				/>
-                {/* Hidden field for the logged-in user's identifier (replace with actual logic) */}
-				<input type="hidden" name="email" value="user@example.com" />
+                {/* No email/password needed here as user is logged in */}
 
                 {/* Action Buttons */}
 				<button
@@ -300,6 +403,16 @@ export const renderLoggedOutAuthorizeScreen = async (
 	oauthScopes: { name: string; description: string }[],
 	oauthReqInfo: AuthRequest,
 ): Promise<HtmlEscapedString> => {
+	// Serialize only necessary parts of oauthReqInfo
+	const relevantReqInfo = {
+		response_type: oauthReqInfo.response_type,
+		client_id: oauthReqInfo.client_id,
+		redirect_uri: oauthReqInfo.redirect_uri,
+		scope: oauthReqInfo.scope,
+		state: oauthReqInfo.state,
+		code_challenge: oauthReqInfo.code_challenge,
+		code_challenge_method: oauthReqInfo.code_challenge_method,
+	};
 	return html`
 		<div class="max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg border border-gray-200">
 			<h1 class="text-2xl font-heading font-bold mb-6 text-center text-gray-900">
@@ -335,10 +448,11 @@ export const renderLoggedOutAuthorizeScreen = async (
 
             {/* Login and Approval Form */}
 			<form action="/approve" method="POST" class="space-y-6"> {/* Increased space */}
-				<input
+				{/* Hidden field to carry OAuth request info - Properly escape JSON */}
+                <input
 					type="hidden"
 					name="oauthReqInfo"
-					value="${JSON.stringify(oauthReqInfo)}"
+					value='${JSON.stringify(relevantReqInfo)}'
 				/>
                 {/* Email Input */}
 				<div>
@@ -353,7 +467,7 @@ export const renderLoggedOutAuthorizeScreen = async (
 						name="email"
 						required
                         placeholder="you@example.com"
-						class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow"
+						class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow shadow-sm"
                         autocomplete="email"
 					/>
 				</div>
@@ -370,7 +484,7 @@ export const renderLoggedOutAuthorizeScreen = async (
 						name="password"
 						required
                         placeholder="••••••••"
-						class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow"
+						class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow shadow-sm"
                         autocomplete="current-password"
 					/>
 				</div>
@@ -407,10 +521,14 @@ export const renderApproveContent = async (
 ): Promise<HtmlEscapedString> => {
     // Generate appropriate icon and colors based on status
 	const icon = status === "success" ?
-        html`<svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` :
-        html`<svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        html`<svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path></svg>` :
+        html`<svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path></svg>`;
     const bgColor = status === 'success' ? 'bg-green-50' : 'bg-red-50';
     const borderColor = status === 'success' ? 'border-green-200' : 'border-red-200';
+    const titleColor = status === 'success' ? 'text-green-800' : 'text-red-800';
+
+    // Ensure redirectUrl is properly encoded for use in JS and href
+    const encodedRedirectUrl = encodeURI(decodeURI(redirectUrl)); // Decode first to handle already encoded chars, then re-encode
 
 	return html`
 		<div
@@ -419,14 +537,14 @@ export const renderApproveContent = async (
 			<div class="mb-4 flex justify-center">
                 ${icon}
 			</div>
-			<h1 class="text-xl sm:text-2xl font-heading font-bold mb-4 text-gray-900">
+			<h1 class="text-xl sm:text-2xl font-heading font-bold mb-4 ${titleColor}">
 				${message}
 			</h1>
 			<p class="mb-6 text-gray-600 text-sm sm:text-base">
-				You will be redirected back to the application shortly. If not, click the link below.
+				You will be redirected back to the application shortly.
 			</p>
 			<a
-                href="${redirectUrl}"  {/* Make this link functional */}
+                href="${encodedRedirectUrl}"  /* Use encoded URL */
 				class="inline-block py-2 px-5 bg-primary text-white rounded-md font-semibold hover:bg-blue-600 transition-colors text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
 			>
 				Continue to Application
@@ -434,11 +552,14 @@ export const renderApproveContent = async (
             {/* Auto-redirect script */}
 			${raw(`
 				<script>
+                    // Ensure the redirect URL is properly escaped for JavaScript string literal
+                    const redirectTarget = ${JSON.stringify(redirectUrl)};
 					setTimeout(() => {
-						if (window.location.href !== "${redirectUrl}") { // Prevent loop if already there
-							window.location.href = "${redirectUrl}";
+                        // Check if the current location is *exactly* the target to prevent loops if already redirected
+						if (window.location.href !== redirectTarget) {
+							window.location.href = redirectTarget;
 						}
-					}, 3000); // Increased delay to 3 seconds
+					}, 3000); // 3-second delay
 				</script>
 			`)}
 		</div>
@@ -456,33 +577,50 @@ export const renderAuthorizationRejectedContent = async (redirectUrl: string): P
 };
 
 // --- Helper to Parse Form Body ---
+// Ensures data from the /approve form POST is parsed correctly
 export const parseApproveFormBody = async (body: Record<string, string | File>): Promise<{
-    action: 'approve' | 'login_approve' | 'reject' | string; // Allow other actions?
+    action: 'approve' | 'login_approve' | 'reject' | string; // Allow potential other actions
     oauthReqInfo: AuthRequest | null;
     email: string | null; // Email might not be present if already logged in
     password?: string | null; // Password only present on login form
 }> => {
-	const action = body.action as string;
-	const email = body.email as string || null; // Handle potential absence
-	const password = body.password as string || null; // Handle potential absence
+    // Safely access potential form fields
+	const action = typeof body.action === 'string' ? body.action : '';
+	const email = typeof body.email === 'string' ? body.email : null;
+	const password = typeof body.password === 'string' ? body.password : null;
 	let oauthReqInfo: AuthRequest | null = null;
 
 	try {
-        // Ensure body.oauthReqInfo exists and is a string before parsing
-        if (typeof body.oauthReqInfo === 'string' && body.oauthReqInfo) {
-		    oauthReqInfo = JSON.parse(body.oauthReqInfo) as AuthRequest;
-            // Basic validation (can add more checks)
-            if (!oauthReqInfo || typeof oauthReqInfo.client_id !== 'string') {
-                 console.warn("Parsed oauthReqInfo seems invalid.");
+        // Ensure body.oauthReqInfo exists and is a non-empty string before parsing
+        if (typeof body.oauthReqInfo === 'string' && body.oauthReqInfo.trim() !== '') {
+            const parsed = JSON.parse(body.oauthReqInfo) as Partial<AuthRequest>;
+
+            // Basic validation: Check for essential fields expected in AuthRequest
+            if (parsed &&
+                typeof parsed.client_id === 'string' &&
+                typeof parsed.redirect_uri === 'string' &&
+                typeof parsed.response_type === 'string'
+                /* add other required fields */ )
+            {
+                 // Cast to AuthRequest if validation passes (make assumptions or add more checks)
+                 oauthReqInfo = parsed as AuthRequest;
+            } else {
+                 console.warn("Parsed oauthReqInfo from form is missing required fields or has incorrect types.");
                  oauthReqInfo = null;
             }
         } else {
-            console.warn("oauthReqInfo missing or not a string in form body.");
+            console.warn("oauthReqInfo missing, not a string, or empty in form body.");
         }
 	} catch (e: any) {
-        console.error("Failed to parse oauthReqInfo from form body:", e.message);
-		oauthReqInfo = null;
+        console.error("Failed to parse oauthReqInfo JSON from form body:", e.message);
+		oauthReqInfo = null; // Ensure it's null on error
 	}
 
-	return { action, oauthReqInfo, email, password };
+    // Return the parsed (or null) values
+	return {
+        action,
+        oauthReqInfo, // This will be null if parsing failed or validation checks didn't pass
+        email,
+        password
+    };
 };
