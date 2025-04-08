@@ -24,7 +24,7 @@
 	"kv_namespaces": [
 		{
 			"binding": "OAUTH_KV",
-			"id": "<ADD YOUR KV NAMESPACEID HERE>"
+			"id": "e4c44870296d447db7eb69d3edb9ea1d"
 		}
 	],
 	"observability": {
