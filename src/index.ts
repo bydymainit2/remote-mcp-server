@@ -4,22 +4,17 @@ import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import OAuthProvider from "@cloudflare/workers-oauth-provider";
-import { TGStatParser, ChannelInfo, PostInfo } from './tgstat-parser'; // Import the parser and interfaces
-import type { Bindings } from './app'; // Import Bindings if needed elsewhere
+import { TGStatParser, ChannelInfo, PostInfo } from './tgstat-parser'; // Import the parser
+import type { Bindings } from './app'; // Import Bindings
 
-// --- Zod Schemas for Tool Input/Output ---
+// --- Zod Schemas (remain the same) ---
 
 const SearchChannelsInputSchema = z.object({
     query: z.string().min(1, "Search query cannot be empty."),
     maxPages: z.number().int().positive().optional().default(1).describe("Maximum number of result pages to fetch (default 1)."),
-    sort: z.enum([ // Add more sort options if needed
-        "participants",
-        "avg_reach",
-        "ci_index",
-        "members_t", // Growth today
-        "members_y", // Growth yesterday
-        "members_7d", // Growth 7d
-        "members_30d" // Growth 30d
+    sort: z.enum([
+        "participants", "avg_reach", "ci_index", "members_t",
+        "members_y", "members_7d", "members_30d"
     ]).optional().default("participants").describe("Sorting criteria."),
 });
 
@@ -28,7 +23,6 @@ const GetChannelPostsInputSchema = z.object({
     maxPosts: z.number().int().positive().optional().default(25).describe("Maximum number of posts to retrieve (default 25)."),
 });
 
-// Optional: Define Zod schemas for the output structures for validation (good practice)
 const ChannelInfoSchema = z.object({
     tgstat_url: z.string().url(),
     username: z.string().nullable(),
@@ -51,7 +45,7 @@ const PostInfoSchema = z.object({
     has_video: z.boolean(),
     has_document: z.boolean(),
     image_url: z.string().url().nullable(),
-    video_url: z.string().url().nullable(), // Assuming URL if present
+    video_url: z.string().url().nullable(),
     views_str: z.string(),
     views: z.number().nullable(),
     shares_str: z.string(),
@@ -63,25 +57,20 @@ const PostInfoSchema = z.object({
 });
 
 
-// --- TGStat Agent Definition ---
+// --- Agent Definition (Renamed back to MyMCP) ---
 
-export class TGStatAgent extends McpAgent {
-    // Create a single parser instance for the agent lifecycle if desired,
-    // or create one per request within the tool methods.
-    // For simplicity and state management (cookies, csrf), one per agent seems reasonable.
-    // However, be mindful of potential concurrency issues if the agent instance is shared across requests.
-    // For Cloudflare Workers, a new instance per request might be safer if state isn't managed carefully.
-    // Let's create it per-tool-call for now to avoid state conflicts between requests.
-    // private parser: TGStatParser;
+// This class MUST be named MyMCP to match wrangler.jsonc durable_objects config
+export class MyMCP extends McpAgent {
 
+    // The server definition describes the TOOLS this agent provides
     server = new McpServer({
-        name: "TGStat",
+        name: "TGStat Tools", // Server name can describe the functionality
         version: "1.0.0",
         description: "Provides tools to interact with TGStat.ru for searching channels and retrieving posts.",
     });
 
     async init() {
-        this.log('info', 'Initializing TGStatAgent...');
+        this.log('info', 'Initializing MyMCP (with TGStat tools)...');
 
         // --- Tool: Search Channels ---
         this.server.tool(
@@ -89,7 +78,7 @@ export class TGStatAgent extends McpAgent {
             {
                 description: "Searches for Telegram channels on TGStat.ru based on a query and optional filters.",
                 input: SearchChannelsInputSchema,
-                output: z.object({ // Describe the output structure
+                output: z.object({
                      channels: z.array(ChannelInfoSchema).nullable(),
                      error: z.string().optional(),
                 })
@@ -100,7 +89,7 @@ export class TGStatAgent extends McpAgent {
                  const channels = await parser.searchChannels(input.query, input.maxPages, input.sort);
 
                 if (channels === null) {
-                     this.log('error', 'searchChannels tool failed to retrieve data.');
+                     this.log('error', 'searchChannels tool failed.');
                      return {
                          content: [{ type: "text", text: "Error: Failed to search channels on TGStat." }],
                          output: { channels: null, error: "Failed to retrieve search results."}
@@ -113,7 +102,6 @@ export class TGStatAgent extends McpAgent {
                      };
                  } else {
                      this.log('info', `searchChannels tool found ${channels.length} channels.`);
-                     // Return JSON for easy consumption by LLM or other clients
                      return {
                          content: [{ type: "json", json: channels }],
                          output: { channels: channels, error: undefined }
@@ -139,7 +127,7 @@ export class TGStatAgent extends McpAgent {
                  const posts = await parser.getChannelPosts(input.channelUsernameOrId, input.maxPosts);
 
                 if (posts === null) {
-                     this.log('error', 'getChannelPosts tool failed to retrieve data.');
+                     this.log('error', 'getChannelPosts tool failed.');
                      return {
                          content: [{ type: "text", text: `Error: Failed to fetch posts for channel ${input.channelUsernameOrId}.` }],
                          output: { posts: null, error: "Failed to retrieve posts."}
@@ -160,15 +148,21 @@ export class TGStatAgent extends McpAgent {
             }
         );
 
-         this.log('info', 'TGStatAgent initialized with tools.');
+         // You could re-add the original 'add' tool here if it's still needed
+         // this.server.tool("add", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
+         // 	content: [{ type: "text", text: String(a + b) }],
+         // }));
+
+
+         this.log('info', 'MyMCP (with TGStat tools) initialized.');
     }
 }
 
-// Export the OAuth handler as the default, mounting the TGStatAgent
+// Export the OAuth handler as the default, mounting the MyMCP Agent
 export default new OAuthProvider<Bindings>({ // Add Bindings type
     apiRoute: "/sse", // Your MCP endpoint
-    // Mount the new TGStatAgent
-    apiHandler: TGStatAgent.mount("/sse"),
+    // Mount the MyMCP class, which contains the TGStat tools
+    apiHandler: MyMCP.mount("/sse"),
     // Use the existing Hono app for other routes (like OAuth UI)
     defaultHandler: app,
     // OAuth endpoints remain the same
